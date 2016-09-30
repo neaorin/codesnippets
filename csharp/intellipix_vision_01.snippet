@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>intellipix_vision_01</Title>
+			<Shortcut>intellipix_vision_01</Shortcut>
+			<Description>Code snippet for Intellipix Cognitive Services demo</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[// Submit the image to Azure's Computer Vision API
+                    var vision = new VisionServiceClient("<Key>");
+                    var features = new VisualFeature[] { VisualFeature.Description };
+
+                    var result = await vision.AnalyzeImageAsync(photo.Uri.ToString(), features);
+
+                    // Record the image description and tags in blob metadata
+                    photo.Metadata.Add("Caption", result.Description.Captions[0].Text);
+
+                    for (int i = 0; i < result.Description.Tags.Length; i++)
+                    {
+                        string key = String.Format("Tag{0}", i);
+                        photo.Metadata.Add(key, result.Description.Tags[i]);
+                    }
+
+                    await photo.SetMetadataAsync();]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
