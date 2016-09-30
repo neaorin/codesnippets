@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+    <Title>FriendsDataTemplate_02</Title>
+    <Author>Sorin Peste</Author>
+    <Shortcut>friends_02</Shortcut>
+  </Header>
+  <Snippet>
+    <Code Language="XAML"><![CDATA[<ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Margin="5" Padding="1" BorderBrush="Gray" BorderThickness="1">
+                            <Image Source="{Binding ImageUrl, FallbackValue=Assets/Square44x44Logo.scale-200.png}" Width="40" Height="40" />
+                        </Border>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Status}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>]]></Code>
+  </Snippet>
+</CodeSnippet>

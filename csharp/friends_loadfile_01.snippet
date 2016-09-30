@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>friends_loadfile_01</Title>
+			<Shortcut>friends_loadfile_01</Shortcut>
+			<Description>Code snippet for friends class</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp"><![CDATA[var friendsFile = Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync
+                                            (@"friends.json").AsTask().Result;
+            string textContent = System.IO.File.ReadAllText(friendsFile.Path);
+            List<Friend> friends = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Friend>>(textContent);]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

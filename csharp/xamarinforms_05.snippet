@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>Xamarin Forms_05</Title>
+			<Shortcut>xamarinforms_05</Shortcut>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[public interface ISQLite
+    {
+        SQLite.Net.SQLiteConnection GetConnection();
+    }
+
+    public class TwitterItemDatabase
+    {
+        SQLite.Net.SQLiteConnection database;
+        public TwitterItemDatabase()
+        {
+            database = DependencyService.Get<ISQLite>().GetConnection();
+            database.CreateTable<TwitterItem>();
+        }
+        
+        public IEnumerable<TwitterItem> GetItems()
+        {
+            return (from i in database.Table<TwitterItem>() select i).ToList();
+        }
+        
+        public IEnumerable<TwitterItem> GetItemsWithNoImage()
+        {
+            return database.Query<TwitterItem>("SELECT * FROM [TwitterItems] WHERE [ImageUri] NOT NULL");
+        }
+        
+        public TwitterItem GetItem(string name)
+        {
+            return database.Table<TwitterItem>().FirstOrDefault(x => x.Name == name);
+        }
+        
+        public int InsertItem(TwitterItem item)
+        {
+            return database.Insert(item);
+        }
+        
+        public int DeleteItem(string name)
+        {
+            return database.Delete<TwitterItem>(name);
+        }
+    }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
