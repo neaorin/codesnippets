@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>botframework_03_apidialog</Title>
+			<Shortcut>botframework_03_apidialog</Shortcut>
+			<Description>Code snippet for botframework call dialog</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
+        {
+            if (activity != null)
+            {
+                switch (activity.GetActivityType())
+                {
+                    case ActivityTypes.Message:
+                        await Conversation.SendAsync(activity, () => new CodeCampDialog());
+                        break;
+                }
+            }
+            return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
+        }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
