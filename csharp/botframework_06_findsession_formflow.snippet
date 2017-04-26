@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>botframework_06_findsessions_formflow</Title>
+			<Shortcut>botframework_06_findsessions_formflow</Shortcut>
+			<Description>Code snippet for botframework FindSesssion method for FormFlow</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[[LuisIntent("FindSession")]
+        public async Task FindSession(IDialogContext context, LuisResult result)
+        {
+            string message = "You want me to find some sessions for you. \n";
+            foreach (var entity in result.Entities)
+                message += $"\nEntity: {entity.Entity}, type: {entity.Type}";
+
+            await context.PostAsync(message);
+
+            var options = new SessionSelectionOptions();
+            var sessionDialog = new FormDialog<SessionSelectionOptions>(
+                options,
+                SessionSelectionOptions.BuildForm
+                );
+
+            context.Call(sessionDialog, SearchFormComplete);
+        }
+
+        private async Task SearchFormComplete(IDialogContext context, IAwaitable<SessionSelectionOptions> result)
+        {
+            var state = await result;
+            var message = $"You want sessions on {state.Topic} with Level {state.Level}";
+            await context.PostAsync(message);
+            context.Wait(MessageReceived);
+        }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

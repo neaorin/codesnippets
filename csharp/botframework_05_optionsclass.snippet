@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>botframework_05_optionsclass</Title>
+			<Shortcut>botframework_05_optionsclass</Shortcut>
+			<Description>Code snippet for botframework Options class for FormFlow</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[[Serializable]
+    public class SessionSelectionOptions
+    {
+        public TopicTypes Topic;
+        public LevelTypes Level;
+
+        public static IForm<SessionSelectionOptions> BuildForm()
+        {
+            return new FormBuilder<SessionSelectionOptions>()
+                .Build();
+        }
+    }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
