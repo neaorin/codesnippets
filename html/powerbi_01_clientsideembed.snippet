@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>powerbi_01_clientsideembed</Title>
+			<Shortcut>powerbi_01_clientsideembed</Shortcut>
+			<Description>Code snippet for embedding Power BI report in web app</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="html">
+        <![CDATA[
+<style>
+    #reportContainer {
+        height: 600px;
+        width: 100%;
+        max-width: 1000px;
+    }
+</style>
+
+<script src="~/Scripts/powerbi.js"></script>
+
+<div class="row">
+    <h2>Embedded Report</h2>
+
+    <div id="reportContainer"></div>
+
+    <script>
+        var accessToken = "@ViewBag.EmbedToken.Token";
+        var embedUrl = "@Html.Raw(ViewBag.EmbedUrl)";
+        var embedReportId = "@ViewBag.ReportId";
+
+        // Get models. models contains enums that can be used.
+        var models = window['powerbi-client'].models;
+
+        var config = {
+            type: 'report',
+            tokenType: models.TokenType.Embed,
+            accessToken: accessToken,
+            embedUrl: embedUrl,
+            id: embedReportId,
+            permissions: models.Permissions.All,
+            settings: {
+                filterPaneEnabled: true,
+                navContentPaneEnabled: true
+            }
+        };
+
+        // Get a reference to the embedded report HTML element
+        var reportContainer = document.getElementById("reportContainer");
+
+        // Embed the report and display it within the div container.
+        var report = powerbi.embed(reportContainer, config);
+    </script>
+</div>]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

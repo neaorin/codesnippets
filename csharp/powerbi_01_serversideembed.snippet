@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>powerbi_01_serversideembed</Title>
+			<Shortcut>powerbi_01_serversideembed</Shortcut>
+			<Description>Code snippet for embedding Power BI report in web app</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[
+    using Microsoft.PowerBI.Api.V2;
+    using Microsoft.PowerBI.Api.V2.Models;
+    using Microsoft.Rest;
+	using Microsoft.IdentityModel.Clients.ActiveDirectory;
+
+    public class HomeController : Controller
+    {
+        private static readonly string Username = "<pbimaster_username>";
+        private static readonly string Password = "<pbimaster_password>";
+
+        private static readonly string ApplicationId = "<app_id>";
+        private static readonly string GroupId = "<group_id>";
+
+        private static readonly string AuthorityUrl = "https://login.windows.net/common/oauth2/authorize/";
+        private static readonly string ResourceUrl = "https://analysis.windows.net/powerbi/api";
+        private static readonly string ApiUrl = "https://api.powerbi.com/";
+
+
+        public async Task<ActionResult> Index()
+        {
+            // Create a user password cradentials.
+            var credential = new UserPasswordCredential(Username, Password);
+
+            // Authenticate using created credentials
+            var authenticationContext = new AuthenticationContext(AuthorityUrl);
+            var authenticationResult = await authenticationContext.AcquireTokenAsync(ResourceUrl, ApplicationId, credential);
+
+            var tokenCredentials = new TokenCredentials(authenticationResult.AccessToken, "Bearer");
+
+            // Create a Power BI Client object. It will be used to call Power BI APIs.
+            using (var client = new PowerBIClient(new Uri(ApiUrl), tokenCredentials))
+            {
+                // Get a list of reports.
+                var reports = await client.Reports.GetReportsInGroupAsync(GroupId);
+
+                // Get the first report in the group.
+                var report = reports.Value.FirstOrDefault();
+
+                // Generate Embed Token.
+                var generateTokenRequestParameters = new GenerateTokenRequest(accessLevel: "view");
+                var tokenResponse = await client.Reports.GenerateTokenInGroupAsync(GroupId, report.Id, generateTokenRequestParameters);
+
+                ViewBag.EmbedToken = tokenResponse;
+                ViewBag.EmbedUrl = report.EmbedUrl;
+                ViewBag.ReportId = report.Id;
+
+                return View();
+            }
+        }
+    }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
