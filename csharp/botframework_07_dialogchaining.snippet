@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>botframework_07_dialogchaining</Title>
+			<Shortcut>botframework_07_dialogchaining</Shortcut>
+			<Description>Code snippet for botframework dialog chaining</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[[public static IDialog<object> MakeSessionSearchDialog()
+        {
+            return Chain.From(() =>
+                {
+                    return new PromptDialog.PromptChoice<string>(
+                        new string[] {"Cloud", "Bots", "Mobile", "Databases"},
+                        "Choose the session topic:", null, 1);
+                })
+
+                .ContinueWith<string, string>(async (context, result) =>
+                {
+                    var topic = await result;
+                    context.ConversationData.SetValue("topic", topic);
+                    return new PromptDialog.PromptChoice<string>(
+                        new string[] { "Any", "Beginner", "Intermediate", "Expert" },
+                        "Choose the session level:", null, 1);
+                })
+				
+                .ContinueWith(async (context, result) =>
+                {
+                    var level = await result;
+                    context.ConversationData.SetValue("level", level);
+                    return Chain.Return<object>(null);
+                });
+        }]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

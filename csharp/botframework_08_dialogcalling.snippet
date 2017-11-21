@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>botframework_08_dialogcalling</Title>
+			<Shortcut>botframework_08_dialogcalling</Shortcut>
+			<Description>Code snippet for botframework calling a dialog</Description>
+			<Author>Sorin Peste</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Code Language="csharp">
+        <![CDATA[context.Call(
+
+                MakeSessionSearchDialog(), 
+
+                async (ctx1, res1) =>
+                {
+                    await ctx1.PostAsync(
+                        $$@"Topic: {ctx1.ConversationData.GetValue<string>("topic")}
+                          Level: {ctx1.ConversationData.GetValue<string>("level")}"
+                        );
+
+                    ctx1.Wait(MessageReceived);
+                }
+            );]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

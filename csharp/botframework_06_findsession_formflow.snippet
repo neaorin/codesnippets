@@ -17,7 +17,7 @@
         {
             string message = "You want me to find some sessions for you. \n";
             foreach (var entity in result.Entities)
-                message += $"\nEntity: {entity.Entity}, type: {entity.Type}";
+                message += $$"\nEntity: {entity.Entity}, type: {entity.Type}";
 
             await context.PostAsync(message);
 
@@ -33,7 +33,7 @@
         private async Task SearchFormComplete(IDialogContext context, IAwaitable<SessionSelectionOptions> result)
         {
             var state = await result;
-            var message = $"You want sessions on {state.Topic} with Level {state.Level}";
+            var message = $$"You want sessions on {state.Topic} with Level {state.Level}";
             await context.PostAsync(message);
             context.Wait(MessageReceived);
         }]]>
